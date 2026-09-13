@@ -49,6 +49,91 @@
             visibility: visible;
         }
 
+        /* Кнопка выхода (только стрелка) */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Меню игроков */
+        .menu-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 85%;
+            max-width: 500px;
+            z-index: 3;
+        }
+
+        .menu-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .players-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* Эстетичная округлая капсула для имени */
+        .player-btn {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 14px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s, border-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateX(5px);
+        }
+
+        .player-btn-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .player-btn-arrow {
+            font-size: 1rem;
+            color: #aaa;
+        }
+
         /* ================= ГОРИЗОНТАЛЬНЫЙ РЕЖИМ (Landscape) ================= */
         @media (min-aspect-ratio: 16/9) {
             .slide-content-wrapper {
@@ -283,6 +368,9 @@
 </head>
 <body>
 
+    <!-- Кнопка возврата в главное меню (только стрелочка) -->
+    <button class="back-btn" id="backBtn" style="display: none;" onclick="goToMainGallery()">←</button>
+
     <div class="lang-switcher">
         <button class="lang-btn active-lang" onclick="setLanguage('ru', event)">RU</button>
         <button class="lang-btn" onclick="setLanguage('en', event)">EN</button>
@@ -293,8 +381,10 @@
 
     <div class="slider-container" id="slider">
         
-        <!-- Слайд 1 -->
-        <div class="slide active" data-index="0">
+        <!-- ================= ГЛАВНОЕ МЕНЮ ================= -->
+        
+        <!-- Слайд 0: Главная -->
+        <div class="slide active" data-index="0" data-type="main">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('home.jpeg');"></div>
                 <div class="img-container">
@@ -313,8 +403,30 @@
             </div>
         </div>
 
-        <!-- Слайд 2 -->
-        <div class="slide" data-index="1">
+        <!-- Слайд 1: Меню игроков -->
+        <div class="slide" data-index="1" data-type="main">
+            <div class="menu-wrapper">
+                <div class="menu-title" 
+                     data-ru="Игроки:" 
+                     data-en="Players:" 
+                     data-es="Jugadores:" 
+                     data-ar="اللاعبون:" 
+                     data-zh="玩家：">Игроки:</div>
+                <div class="players-list">
+                    
+                    <div class="player-btn" onclick="openPlayerGallery(2)">
+                        <span class="player-btn-name">Dimakm76</span>
+                        <span class="player-btn-arrow">→</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= ГАЛЕРЕЯ ИГРОКА: Dimakm76 ================= -->
+
+        <div class="slide" data-index="2" data-type="player" data-group="dimakm76">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('Mail.jpeg');"></div>
                 <div class="img-container">
@@ -334,8 +446,7 @@
             </div>
         </div>
 
-        <!-- Слайд 3 -->
-        <div class="slide" data-index="2">
+        <div class="slide" data-index="3" data-type="player" data-group="dimakm76">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('OPTime_0.jpeg');"></div>
                 <div class="img-container">
@@ -356,8 +467,7 @@
             </div>
         </div>
 
-        <!-- Слайд 4 -->
-        <div class="slide" data-index="3">
+        <div class="slide" data-index="4" data-type="player" data-group="dimakm76">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('OPTime_1.jpeg');"></div>
                 <div class="img-container">
@@ -376,8 +486,7 @@
             </div>
         </div>
 
-        <!-- Слайд 5 -->
-        <div class="slide" data-index="4">
+        <div class="slide" data-index="5" data-type="player" data-group="dimakm76">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('OPTime_2.jpeg');"></div>
                 <div class="img-container">
@@ -396,8 +505,7 @@
             </div>
         </div>
 
-        <!-- Слайд 6 -->
-        <div class="slide" data-index="5">
+        <div class="slide" data-index="6" data-type="player" data-group="dimakm76">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('OPTime_3.jpeg');"></div>
                 <div class="img-container">
@@ -416,8 +524,7 @@
             </div>
         </div>
 
-        <!-- Слайд 7 -->
-        <div class="slide" data-index="6">
+        <div class="slide" data-index="7" data-type="player" data-group="dimakm76">
             <div class="slide-content-wrapper">
                 <div class="glow-bg" style="background-image: url('Slime.jpeg');"></div>
                 <div class="img-container">
@@ -448,27 +555,75 @@
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
+        const backBtn = document.getElementById('backBtn');
 
         function showSlide(index) {
             slides.forEach(slide => slide.classList.remove('active'));
-            if (index >= slides.length) currentSlide = 0;
-            else if (index < 0) currentSlide = slides.length - 1;
-            else currentSlide = index;
+            currentSlide = index;
             slides[currentSlide].classList.add('active');
+
+            const slideType = slides[currentSlide].getAttribute('data-type');
+            if (slideType === 'main') {
+                backBtn.style.display = 'none';
+            } else {
+                backBtn.style.display = 'flex';
+            }
         }
 
         function nextSlide() {
-            showSlide(currentSlide + 1);
+            const slideType = slides[currentSlide].getAttribute('data-type');
+            
+            if (slideType === 'main') {
+                currentSlide = (currentSlide === 0) ? 1 : 0;
+                showSlide(currentSlide);
+            } else {
+                const currentGroup = slides[currentSlide].getAttribute('data-group');
+                let playerSlides = Array.from(slides).filter(s => s.getAttribute('data-group') === currentGroup);
+                let localIndex = playerSlides.indexOf(slides[currentSlide]);
+                
+                localIndex = (localIndex + 1) % playerSlides.length;
+                showSlide(Array.from(slides).indexOf(playerSlides[localIndex]));
+            }
         }
 
         function prevSlide() {
-            showSlide(currentSlide - 1);
+            const slideType = slides[currentSlide].getAttribute('data-type');
+            
+            if (slideType === 'main') {
+                currentSlide = (currentSlide === 0) ? 1 : 0;
+                showSlide(currentSlide);
+            } else {
+                const currentGroup = slides[currentSlide].getAttribute('data-group');
+                let playerSlides = Array.from(slides).filter(s => s.getAttribute('data-group') === currentGroup);
+                let localIndex = playerSlides.indexOf(slides[currentSlide]);
+                
+                localIndex = (localIndex - 1 + playerSlides.length) % playerSlides.length;
+                showSlide(Array.from(slides).indexOf(playerSlides[localIndex]));
+            }
+        }
+
+        function openPlayerGallery(startIndex) {
+            showSlide(startIndex);
+        }
+
+        function goToMainGallery() {
+            showSlide(0);
         }
 
         function setLanguage(lang, event) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active-lang'));
             event.target.classList.add('active-lang');
 
+            // Перевод заголовка "Игроки:"
+            const menuTitle = document.querySelector('.menu-title');
+            if (menuTitle) {
+                const translatedTitle = menuTitle.getAttribute(`data-${lang}`);
+                if (translatedTitle) {
+                    menuTitle.innerText = translatedTitle;
+                }
+            }
+
+            // Перевод слайдов с описанием
             slides.forEach(slide => {
                 const textBox = slide.querySelector('.text-box');
                 if (!textBox) return;
@@ -489,4 +644,4 @@
         });
     </script>
 </body>
-</html>
+                    </html>
